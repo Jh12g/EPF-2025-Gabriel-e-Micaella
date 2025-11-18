@@ -16,3 +16,4 @@ class Config:
 
     # Outras configurações
     SECRET_KEY = 'sua-chave-secreta-aqui'
+
