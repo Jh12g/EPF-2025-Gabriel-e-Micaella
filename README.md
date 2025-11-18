@@ -8,7 +8,7 @@ Utiliza o microframework **Bottle**. Ideal para uso em disciplinas introdutória
 
 Fornecer uma base simples, extensível e didática para construção de aplicações web orientadas a objetos com aplicações WEB em Python, ideal para trabalhos finais ou exercícios práticos.
 
----
+--- ass
 
 ## 🗂 Estrutura de Pastas
 
