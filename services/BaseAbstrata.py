@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 
+
 class BaseAbstrata(abc.ABC):
     
     _caminhoArquivo: Path

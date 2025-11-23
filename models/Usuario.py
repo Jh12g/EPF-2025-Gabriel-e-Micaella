@@ -1,4 +1,3 @@
-# models/usuario.py
 from services.BaseAbstrata import BaseAbstrata
 
 class Usuario(BaseAbstrata):
@@ -14,7 +13,6 @@ class Usuario(BaseAbstrata):
         self.admin = admin
 
     
-    
     def buscarID(self, id):
         
         for u in self._dados:
@@ -22,7 +20,6 @@ class Usuario(BaseAbstrata):
                 return u
         return None
 
-  
 
     def tradutorJ(self):
         

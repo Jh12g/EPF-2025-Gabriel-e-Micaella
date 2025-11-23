@@ -2,11 +2,9 @@ from models.Usuario import Usuario
 
 class UsuarioService:
     def __init__(self):
-        
         self._usuarioModel = Usuario()
 
     def autenticador(self, email, senha):
-        
         return self._usuarioModel.verificarSenha(email, senha)
 
     def criarUsuario(self, nome, email, senha, admin=False):
@@ -31,14 +29,12 @@ class UsuarioService:
             return False
 
     def obterId(self, email):
-        
         user_dict = self._usuarioModel.buscarEmail(email)
         if user_dict:
             return user_dict['id']
         return None
 
     def admin(self, id):
-        
         user_dict = self._usuarioModel.buscarID(id)
         if user_dict and user_dict['admin'] is True:
             return True
