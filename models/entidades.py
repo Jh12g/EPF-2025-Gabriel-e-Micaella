@@ -52,3 +52,14 @@ class EntidadeUsuario:
 
     def to_dict(self):
         return asdict(self)
+    
+@dataclass
+class EntidadeComentario:
+
+    id: int
+    texto: str
+    autorid: int
+    receitaid: int
+
+    def to_dict(self):
+        return asdict(self)

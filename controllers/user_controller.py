@@ -1,6 +1,6 @@
 from bottle import Bottle, request
 from .base_controller import BaseController
-from services.user_service import UserService
+from services.usuario_service import UserService
 
 class UserController(BaseController):
     def __init__(self, app):
