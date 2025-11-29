@@ -9,6 +9,7 @@ class BaseModel(ABC):
         # caminho p pasta data/ (a que vai ter os arquivos .json)
         # .. ta saindo de models e indo p data (filename é o arquvio especifico)
         self.file_path = os.path.join(os.path.dirname(__file__), '..', 'data', filename)
+        
         # essa linha de código faz com q o ponto de partida seja models
         self.dados = self._carregar()
 
@@ -18,7 +19,7 @@ class BaseModel(ABC):
             return []
         try:
             # abre o arquivo so pra leitura
-            with open(self.file_path, 'r', encoding='utf-8') as f:
+            with open(self.file_path, 'r', encoding='utf-8') as f: #f é so uma variavel q quando o python pega um arquivo aberto (open) ele coloca dentro dela
                 return json.load(f)
         except (json.JSONDecodeError, FileNotFoundError):
             return []
