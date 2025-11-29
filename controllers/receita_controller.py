@@ -48,7 +48,7 @@ class ReceitaController(BaseController):
 
     def sugerir(self):
          # pagina de sugestõess
-        self.renderizacao('sugestao_form')
+       return self.render('receita_form', titulo_pagina="Sugerir uma Receita") #p funcionar com receita_form.tpl
 
     def admin(self):
         # Parte do adm

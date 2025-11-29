@@ -1,6 +1,6 @@
 % rebase('layout.tpl', title='Nova Receita')
 
-<h2>Cadastrar Receita</h2>
+<h2>{{get('titulo_pagina', 'Cadastrar Nova Receita')}}</h2>
 <form action="/nova_receita" method="POST">
     <label>Título:</label><br>
     <input type="text" name="titulo" required><br><br>
