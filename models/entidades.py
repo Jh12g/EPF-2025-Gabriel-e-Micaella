@@ -66,17 +66,10 @@ class EntidadeComentario:
 
 @dataclass
 class EntidadeComentario:
-    def __init__(self, id, texto, autor, receita):
-        self.id = id
-        self.texto = texto
-        self.autor_id = autor
-        self.receita_id = receita
+    id: int
+    texto: str
+    autor_id: int   
+    receita_id: int
 
-    def tradutorJ(self):
-        # Retorna dicionário para salvar no JSON
-        return {
-            "id": self.id,
-            "texto": self.texto,
-            "autorId": self.autor_id,
-            "receitaId": self.receita_id
-        }
+    def to_dict(self):
+        return asdict(self)
