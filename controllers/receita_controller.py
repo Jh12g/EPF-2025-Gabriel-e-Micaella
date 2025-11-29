@@ -14,46 +14,46 @@ class ReceitaController(BaseController):
         # Lista de receitas do cafe da manha
         dados = self.receita_service.listar_por_categoria('Cafe')
         # render (do BaseController)
-        return self.render('lista_receitas', receitas=dados, titulo='Café da Manhã')
+        return self.render('usuario/lista_receitas', receitas=dados, titulo='Café da Manhã')
 
     def cardapioAlmoco(self):
         # Lista de receitas do almoço
-        dados = self.__receita_service.listarCategoria('Almoco')
-        self.renderizacao('lista_receitas', {'receitas': dados, 'titulo': 'Almoço'})
+        dados = self._receita_service.listar_por_categoria('Almoco')
+        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Almoço'})
 
     def cardapioLanche(self):
         # Lista de receitas do lanche
-        dados = self.__receita_service.listarCategoria('Lanche')
-        self.renderizacao('lista_receitas', {'receitas': dados, 'titulo': 'Lanche'})
+        dados = self._receita_service.listar_por_categoria('Lanche')
+        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Lanche'})
 
     def cardapioJanta(self):
         # Lista de receitas do jantar
-        dados = self.__receita_service.listarCategoria('Janta')
-        self.renderizacao('lista_receitas', {'receitas': dados, 'titulo': 'Jantar'})
+        dados = self._receita_service.listar_por_categoria('Janta')
+        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Jantar'})
 
     def cardapioPetisco(self):
         # Lista de receitas dos petiscos
-        dados = self.__receita_service.listarCategoria('Petisco')
-        self.renderizacao('lista_receitas', {'receitas': dados, 'titulo': 'Petiscos'})
+        dados = self._receita_service.listar_por_categoria('Petisco')
+        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Petiscos'})
 
     def cardapioGato(self):
         # Lista de receitas de comida para gato
-        dados = self.__receita_service.listarCategoria('Gato')
-        self.renderizacao('lista_receitas', {'receitas': dados, 'titulo': 'Receitas para Gatos'})
+        dados = self._receita_service.listar_por_categoria('Gato')
+        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Receitas para Gatos'})
 
     def cardapioCachorro(self):
          # Lista de receitas de comida para gato
-        dados = self.__receita_service.listarCategoria('Cachorro')
-        self.renderizacao('lista_receitas', {'receitas': dados, 'titulo': 'Receitas para Cachorros'})
+        dados = self._receita_service.listar_por_categoria('Cachorro')
+        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Receitas para Cachorros'})
 
     def sugerir(self):
          # pagina de sugestõess
-       return self.render('receita_form', titulo_pagina="Sugerir uma Receita") #p funcionar com receita_form.tpl
+       return self.render('usuario/receita_form', titulo_pagina="Sugerir uma Receita") #p funcionar com receita_form.tpl
 
     def admin(self):
         # Parte do adm
         todas_receitas = self.receita_service.listar_todas()
-        return self.render('admin_dashboard', receitas=todas_receitas)
+        return self.render('admin/dashboard', receitas=todas_receitas)
 
     def novaReceita(self):
         # parte das novas receitas
@@ -61,7 +61,7 @@ class ReceitaController(BaseController):
         # Se for POST: Recebe os dados e chama o criarReceita do Service. (parte importante)
         
         if request.method == 'GET':
-            return self.render('receita_form')
+            return self.render('usuario/receita_form')
         else:
             # Captura os dados do formulário
             # empacotando em um dicionário para enviar ao service
