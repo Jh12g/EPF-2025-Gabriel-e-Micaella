@@ -54,6 +54,9 @@
             <a href="/sugerir">Sugerir</a>
             <a href="/admin"> Admin</a>
             <a href="/users">Usuários</a>
+
+            <a href="/logout" style="background-color: #d9534f;">Sair</a>
+
         </div>
     </nav>
 

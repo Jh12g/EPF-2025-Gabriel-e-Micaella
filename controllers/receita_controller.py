@@ -9,6 +9,9 @@ class ReceitaController(BaseController):
         self.receita_service = ReceitaService() 
         self.setup_routes() # chamando setup_routes que define as rotas
 
+    def opcoes(self):
+        # Renderiza o arquivo que vamos criar agora
+        return self.render('usuario/painel_opcoes')
 
     def cardapioCafe(self):
         # Lista de receitas do cafe da manha
@@ -114,6 +117,7 @@ class ReceitaController(BaseController):
     # OU SEJA routes organiza o tráfego d cada url
     
     def setup_routes(self):
+        self.app.route('/opcoes', method='GET', callback=self.opcoes)
         """
         Mapeia as URLs para os métodos da classe.
         Usa o objeto 'app' que vem herdado do BaseController.

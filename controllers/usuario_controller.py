@@ -1,4 +1,4 @@
-from bottle import request
+from bottle import request, response  
 from .base_controller import BaseController
 from services.usuario_service import UsuarioService
 
@@ -21,6 +21,62 @@ class UserController(BaseController):
         self.app.route('/users/add', method=['GET', 'POST'], callback=self.add_user)
         self.app.route('/users/edit/<user_id:int>', method=['GET', 'POST'], callback=self.edit_user)
         self.app.route('/users/delete/<user_id:int>', method='POST', callback=self.delete_user)
+        self.app.route('/login', method=['GET', 'POST'], callback=self.login)
+        self.app.route('/cadastro', method=['GET', 'POST'], callback=self.cadastro)
+        self.app.route('/logout', method='GET', callback=self.logout)
+
+        def login(self): #verifica se o usuário ta apenas entrando na página (get)
+                if request.method == 'GET':
+            # mostra o formulário de login limpo (sem erros)
+                    return self.render('login', erro=None)
+        
+        # agora POST pq o usuário clicou no botão d entrar
+        email = request.forms.get('email')
+        senha = request.forms.get('senha')
+        
+        # chama o service p verificar se esse email e senha existem
+        usuario = self.service.autenticar(email, senha)
+        
+        # se o service retornou um usuário (login correto)
+        if usuario:
+            # cria um "crachá" (cookie) no navegador do usuário com o ID dele
+            response.set_cookie("session_id", str(usuario['id']), secret='segredo_super_secreto_do_projeto_oo')
+            
+            # redireciona o usuário para a página inicial do sistema 
+            return self.redirect('/opcoes')
+        else:
+            # se o login falhou (usuário vazio), carrega a tela de login de novo e enviando uma mensagem de erro para aparecer no alerta vermelho
+            return self.render('login', erro="Email ou senha incorretos!")
+
+    def cadastro(self):
+        # verifica se o usuário está apenas entrando na página de cadastro (get)
+        if request.method == 'GET':
+            # mostra o formulário de cadastro limpo
+            return self.render('cadastro', erro=None)
+            
+        # POST: o usuário preencheu e enviou
+        nome = request.forms.get('nome')
+        email = request.forms.get('email')
+        senha = request.forms.get('senha')
+        
+        # chama o Service para tentar criar
+        # passa admin=false pois cadastro público não é chefe
+        # o service retorna duas coisas: true/false (sucesso) e uma Mensagem (msg)
+        sucesso, msg = self.service.criar_usuario(nome, email, senha, admin=False)
+        
+        if sucesso:
+            # se criou com sucesso, manda ele para a tela de login para entrar
+            return self.redirect('/login')
+        else:
+            # se deu erro (tipo por ex: email já existe), recarrega a página mostrando o erro
+            return self.render('cadastro', erro=msg)
+
+    def logout(self):
+        # apaga o cookie do navegador desconectando o usuário
+        response.delete_cookie("session_id")
+        
+        # manda ele de volta para a tela de login
+        return self.redirect('/login')
 
     def list_users(self):
         # busca todos os usuários via service
