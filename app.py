@@ -1,28 +1,24 @@
 from bottle import Bottle
-from config import Config
+# importando os meus controllers 
+from controllers.usuario_controller import UserController
+from controllers.receita_controller import ReceitaController
+from controllers.comentario_controller import ComentarioController
 
 class App:
     def __init__(self):
-        self.bottle = Bottle()
-        self.config = Config()
-
+        # cria a aplicação Bottle
+        self.app = Bottle()
+        self.setup_routes()
 
     def setup_routes(self):
-        from controllers import init_controllers
+        print("🔧 Configurando Rotas...")
+        
+        # ao instanciar os controllers passando 'self.app',  eles injetam as rotas automaticamente (por causa do super init)
+        self.user_controller = UserController(self.app)
+        self.receita_controller = ReceitaController(self.app)
+        self.comentario_controller = ComentarioController(self.app)
+        
+        print("✅ Rotas Carregadas!")
 
-        print('🚀 Inicializa rotas!')
-        init_controllers(self.bottle)
-
-
-    def run(self):
-        self.setup_routes()
-        self.bottle.run(
-            host=self.config.HOST,
-            port=self.config.PORT,
-            debug=self.config.DEBUG,
-            reloader=self.config.RELOADER
-        )
-
-
-def create_app():
-    return App()
+    def get_app(self):
+        return self.app

@@ -13,7 +13,7 @@ class UserController(BaseController):
         # mapeia as URLs para as funções
         # self.app é o bottle (servidor web) 
         # os argumentos tipo /cafe e /almoco é o endereço url
-        #met GET é o tipo d acesso permitido q é padrao p quando alguem so quer ver conteudo
+        # met GET é o tipo d acesso permitido q é padrao p quando alguem so quer ver conteudo
         # callback é a instrução principal pra executar a função 
         # get = visualizar, post = tipo quando o usuário quer salvar 
 
@@ -25,12 +25,14 @@ class UserController(BaseController):
     def list_users(self):
         # busca todos os usuários via service
         users = self.service.get_all()
-        return self.render('users', users=users)
+        # apontando para a pasta admin com user.tpl (tpl é um arquivo q mistura html e python, se fizesse so html puro ia ter q escrever TODAS as info. com tpl eu so rodo o python, ele preenche as lacunas - tipo nome: {nome} vai ser nome: maria - e gera o html final
+        return self.render('admin/users', users=users) 
 
     def add_user(self):
         if request.method == 'GET':
             # exibe o formulário vazio
-            return self.render('user_form', user=None, action="/users/add")
+            # apontando para a pasta admin onde está o user_form.tpl
+            return self.render('admin/user_form', user=None, action="/users/add")
         
         # se for POST (clicou em Salvar):
         # pega os dados que vieram do HTML
@@ -38,7 +40,7 @@ class UserController(BaseController):
         nome = request.forms.get('nome')
         email = request.forms.get('email')
         senha = request.forms.get('senha')
-        admin = request.forms.get('admin') == 'on' # exemplo para checkbox
+        admin = request.forms.get('admin') == 'on' # exemplo p checkbox
 
         sucesso, mensagem = self.service.criar_usuario(nome, email, senha, admin) # manda o service criar
         
@@ -51,12 +53,15 @@ class UserController(BaseController):
             return "Usuário não encontrado"
 
         if request.method == 'GET':
-            return self.render('user_form', user=user, action=f"/users/edit/{user_id}")
+            # apontando p a pasta admin d view
+            return self.render('admin/user_form', user=user, action=f"/users/edit/{user_id}")
         
         # se for POST (edição):
         # atualiza o dicionário do usuário com os novos dados do form
         user['nome'] = request.forms.get('nome')
         user['email'] = request.forms.get('email')
+        user['admin'] = request.forms.get('admin') == 'on'
+
         nova_senha = request.forms.get('senha')
         
         if nova_senha and nova_senha.strip() != "": # o if verifica se a nova senha não está vazia
