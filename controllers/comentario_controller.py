@@ -25,15 +25,16 @@ class ComentarioController(BaseController):
                 print("Erro: IDs inválidos")
             return
 
-            # Chama o método do Service 
-            sucesso = self.__comentario_service.criarComentario(texto, autor_id, receita_id)
+            # Chama o método do Service
+            # criarComentario e variavel service corrigidas
+            sucesso = self.comentario_service.criarComentario(texto, autor_id, receita_id)
 
             # Redireciona o usuário de volta para a página anterior
             # Se não conseguir descobrir a anterior, vai para a home '/'
             back_url = request.headers.get('Referer', '/')
-            self.redirecionar(back_url)
+            return self.redirect(back_url)
 
-    def rotas(self):
+    def setup_routes(self): 
         """
         Define a rota POST que o formulário HTML vai chamar.
         """
