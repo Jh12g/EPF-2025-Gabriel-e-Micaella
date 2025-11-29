@@ -4,12 +4,12 @@ from bottle import request, redirect
 
 class ComentarioController(BaseController):
     
-    def __init__(self):
-        super().__init__()
+    def __init__(self, app):
+        super().__init__(app)
         
         # Isso conecta o Controller ao Service 
-        self.__comentario_service = ComentarioService()
-        self.rotas()
+        self.comentario_service = ComentarioService()
+        self.setup_routes()
 
     def postarComent(self):
         if request.method == 'POST':

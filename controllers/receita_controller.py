@@ -6,14 +6,15 @@ class ReceitaController(BaseController):
     def __init__(self, app):
         super().__init__(app)
 
-        self.setup_routes()
-        self.receita_service = ReceitaService()
+        self.receita_service = ReceitaService() 
+        self.setup_routes() # chamando setup_routes que define as rotas
 
 
     def cardapioCafe(self):
         # Lista de receitas do cafe da manha
-        dados = self.__receita_service.listarCategoria('Cafe')
-        self.renderizacao('lista_receitas', {'receitas': dados, 'titulo': 'Café da Manhã'})
+        dados = self.receita_service.listar_por_categoria('Cafe')
+        # render (do BaseController)
+        return self.render('lista_receitas', receitas=dados, titulo='Café da Manhã')
 
     def cardapioAlmoco(self):
         # Lista de receitas do almoço
@@ -51,8 +52,8 @@ class ReceitaController(BaseController):
 
     def admin(self):
         # Parte do adm
-        todas_receitas = self.__receita_service.listarTodas()
-        self.renderizacao('admin_dashboard', {'receitas': todas_receitas})
+        todas_receitas = self.receita_service.listar_todas()
+        return self.render('admin_dashboard', receitas=todas_receitas)
 
     def novaReceita(self):
         # parte das novas receitas
@@ -60,26 +61,59 @@ class ReceitaController(BaseController):
         # Se for POST: Recebe os dados e chama o criarReceita do Service. (parte importante)
         
         if request.method == 'GET':
-            self.renderizacao('receita_form')
+            return self.render('receita_form')
         else:
             # Captura os dados do formulário
-            titulo = request.forms.get('titulo')
-            ingredientes = request.forms.get('ingredientes')
-            preparo = request.forms.get('preparo')
-            categoria = request.forms.get('categoria')
-            tempo = request.forms.get('tempo')
-            
-            # Chama o método criarReceita do Service (conforme diagrama)
-            self.__receita_service.criarReceita(
-                titulo, ingredientes, preparo, categoria, tempo
-            )
-            
-            # Usa o método redirecionar do BaseController
-            self.redirecionar('/admin')
+            # empacotando em um dicionário para enviar ao service
+            dados_form = {
+                'titulo': request.forms.get('titulo'),
+                'ingredientes': request.forms.get('ingredientes'),
+                'preparo': request.forms.get('preparo'),
+                'categoria': request.forms.get('categoria'),
+                'tempo': request.forms.get('tempo'),
+                'tipo': request.forms.get('tipo', 'padrao'),
+                'especie': request.forms.get('especie', '')
+            }
 
+            # ID provisório so pra testar 
+            #TEM Q APAGAR ISSO DEPOIS E TROCAR PELA LÓGICA DO USUARIO Q TA LOGADO 
+            autor_id = 1
+
+            '''
+            QUANDO o login estiver pronto: no topo do arquivo from bottle import request, redirect
+
+            ai dentro desse método: apagar o id provisorio e botar esse definitivo
+
+             # tenta pegar o ID do cookie seguro
+             usuario_logado_id = request.get_cookie("session_id", secret='sua-chave-secreta-aqui')
+
+            if not usuario_logado_id:
+            # se não tem ninguém logado, chuta ele para a tela de login
+            return self.redirect('/login')
+
+            # ai usa o ID real
+            self.receita_service.criar_receita(dados_form, int(usuario_logado_id))
+            '''
+
+            # chamando o método criarReceita do Service e passando o dicionário e o ID
+            self.receita_service.criar_receita(dados_form, autor_id)
+           
+            # usa o método redirecionar do BaseController
+            return self.redirect('/admin')
+        
     # Parte que nao entendi bem, estudar mais sobre (confuso)
 
-    def rotas(self):
+    #explicacao p gabriel tb 
+    #essa parte do cod é tipo um mapa, o setup_routes conecta os endreços url q o usuario digita com a função python q deve responder a esses endereços
+    # esse def é o mét chamado quando o sistema inicia 
+    # self.app é o bottle (servidor web) 
+    # os argumentos tipo /cafe e /almoco é o endereço url
+    #met GET é o tipo d acesso permitido q é padrao p quando alguem so quer ver conteudo
+    # callback é a instrução principal pra executar a função 
+    # get = visualizar, post = tipo quando o usuário quer salvar 
+    # OU SEJA routes organiza o tráfego d cada url
+    
+    def setup_routes(self):
         """
         Mapeia as URLs para os métodos da classe.
         Usa o objeto 'app' que vem herdado do BaseController.
@@ -90,11 +124,11 @@ class ReceitaController(BaseController):
         self.app.route('/lanche', method='GET', callback=self.cardapioLanche)
         self.app.route('/petisco', method='GET', callback=self.cardapioPetisco)
         self.app.route('/janta', method='GET', callback=self.cardapioJanta)
-        
+       
         # Rotas Pet
         self.app.route('/gato', method='GET', callback=self.cardapioGato)
         self.app.route('/cachorro', method='GET', callback=self.cardapioCachorro)
-        
+       
         # Outras rotas
         self.app.route('/sugerir', method='GET', callback=self.sugerir)
         self.app.route('/admin', method='GET', callback=self.admin)
