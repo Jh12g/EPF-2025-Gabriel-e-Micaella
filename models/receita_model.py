@@ -14,7 +14,6 @@ class ReceitaModel(BaseModel):
         # percorre a lista e cria uma nova p status 
         return [r for r in self.dados if r.get('status') == status]
 
-    def adicionar(self, receita: EntidadeReceita):
-        # transforma em dicionário p json
-        self.dados.append(receita.to_dict())
+    def adicionar(self, receita): 
+        self.dados.append(receita.to_dict()) # transforma em dicionário p json
         self.salvar()

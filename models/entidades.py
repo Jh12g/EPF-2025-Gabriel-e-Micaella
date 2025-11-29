@@ -71,5 +71,5 @@ class EntidadeComentario:
     autor_id: int   
     receita_id: int
 
-    def to_dict(self):
+    def to_dict(self): #retorna dicionario p salvar no json
         return asdict(self)
