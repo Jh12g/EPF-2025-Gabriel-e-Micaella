@@ -10,21 +10,43 @@ class ReceitaService:
 
     def listar_por_categoria(self, categoria):
         todas = self.model.listar_todos()
-        return [r for r in todas if r.get('categoria') == categoria] #isso daqui é um loop for 
-        # p cada receita f na lista de todas as receitas, ele verifica se a categoria da receita é igual a categoria pedida
+        
+        # filtro pra que as receitas com status d 'pendente' fiquem invisíveis no cardápio
+        return [r for r in todas if r.get('categoria') == categoria and r.get('status') == 'Ativo']
+    
+    # busca uma receita específica p editar
+    def buscar_por_id(self, id):
+        return self.model.buscar_por_id(id)
+
+    # muda o status de Pendente p ativo
+    def aprovar_receita(self, id):
+        receita = self.model.buscar_por_id(id)
+        if receita:
+            receita['status'] = 'Ativo' # muda o status
+            self.model.atualizar(receita) # salva no JSON
+            return True
+        return False
+
+    # salva a receita editada
+    def editar_receita(self, receita_atualizada_dict):
+        # garante que o status se mantenha ou mude conforme regra
+        self.model.atualizar(receita_atualizada_dict)
+
+    # met de excluir
+    def excluir_receita(self, id):
+        self.model.excluir(id)
 
     def criar_receita(self, dados_form, autor_id):
-        # gera ID
+        # met q gera ID
         todos = self.model.listar_todos()
-        novo_id = (max([r['id'] for r in todos]) + 1) if todos else 1 #else 1 pq se tiver vazio ele cria o primeiro id 
+        novo_id = (max([r['id'] for r in todos]) + 1) if todos else 1
 
         # lógica da dificuldade q tava em receitaModels
-        # try/except e int() para evitar erro se vier vazio
         try:
-            tempo = int(dados_form.get('tempo')) #o usuario pode escrever em forma d texto ai isso força pra int
-        except (ValueError, TypeError): #se ele escrever letras ou deixar vazio da erro MAS nao vai quebrar o cod so vai virar 0
+            tempo = int(dados_form.get('tempo'))
+        except (ValueError, TypeError):
             tempo = 0
-
+            
         if tempo <= 30:
             dificuldade = "Fácil"
         elif tempo <= 60:
@@ -33,8 +55,8 @@ class ReceitaService:
             dificuldade = "Difícil"
 
         # separando os dados comuns
-        tipo = dados_form.get('tipo', 'padrao') # usuário escolhe tipo de receita (humano ou pet) mas se nao escolher vai por padrao q é humano
-        
+        tipo = dados_form.get('tipo', 'padrao')
+       
         dados_base = {
             'id': novo_id,
             'titulo': dados_form.get('titulo'),
@@ -45,19 +67,22 @@ class ReceitaService:
             'dificuldade': dificuldade,
             'autor_id': autor_id,
             'tipo': tipo,
-            'status': 'Pendente'
+            'status': 'Pendente', # é padrao q toda receita começa pendente (((tentar add algo assim com foto)))
+            
+            # img salva no banco
+            'imagem': dados_form.get('imagem')
         }
 
-        # decisão de qual classe usar (mae ou filha) 
+        # decisão de qual classe usar (mae ou filha)
         if tipo == 'pet':
             # instanciando a classe FILHA
             nova_receita = EntidadeReceitaPet(
-                **dados_base, 
-                especie=dados_form.get('especie', 'Cachorro'),
+                **dados_base, # passa todos os dados comuns
+                especie=dados_form.get('especie'),
                 aviso="Verifique alergias do seu pet!"
             )
         else:
-            # instanciando a classe maepai
+            # instanciando a classe maeoai
             nova_receita = EntidadeReceita(**dados_base)
 
         # salva (polimorfismo no model.adicionar)

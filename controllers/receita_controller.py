@@ -1,6 +1,7 @@
 from bottle import Bottle, request
 from .base_controller import BaseController
 from services.receita_service import ReceitaService
+import sessao 
 
 class ReceitaController(BaseController):
     def __init__(self, app):
@@ -9,65 +10,126 @@ class ReceitaController(BaseController):
         self.receita_service = ReceitaService() 
         self.setup_routes() # chamando setup_routes que define as rotas
 
-    def opcoes(self):
-        # Renderiza o arquivo que vamos criar agora
-        return self.render('usuario/painel_opcoes')
+    def esta_logado(self):
+        # verifica se tem alguém na lista de logados na memória
+        esta_na_memoria = sessao.usuarios_logados.get('atual') is not None
+        return esta_na_memoria
 
+    def opcoes(self):
+        if not self.esta_logado(): return self.redirect('/login')
+        return self.render('usuario/painel_opcoes') # renderiza o painel de botões
+
+    # *******métodos de ação do admin********
+    
+    def aprovar(self, id):
+        if not self.esta_logado(): return self.redirect('/login')
+        self.receita_service.aprovar_receita(id)
+        return self.redirect('/admin')
+
+    def excluir(self, id):
+        if not self.esta_logado(): return self.redirect('/login')
+        self.receita_service.excluir_receita(id)
+        return self.redirect('/admin')
+
+    def editar(self, id):
+        if not self.esta_logado(): return self.redirect('/login')
+        
+        receita = self.receita_service.buscar_por_id(id) # busca a receita para preencher o formulário
+        
+        if request.method == 'GET':
+            # reutiliza o formulário de cadastro, mas enviando a receita para preencher
+            return self.render('usuario/receita_form', titulo_pagina="Editar Receita", receita=receita)
+        
+        else:
+            # POST - salvar edição
+            dados_form = {
+                'id': id, 
+                'titulo': request.forms.get('titulo'),
+                'ingredientes': request.forms.get('ingredientes'),
+                'preparo': request.forms.get('preparo'),
+                'categoria': request.forms.get('categoria'),
+                'tempo': int(request.forms.get('tempo')),
+                'tipo': request.forms.get('tipo', 'padrao'),
+                'especie': request.forms.get('especie', ''),
+                'status': receita['status'], 
+                'autor_id': receita['autor_id'],
+                # aq mantém a imagem antiga se não enviou nova, ou atualiza
+                'imagem': request.forms.get('imagem') or receita.get('imagem'),
+                'dificuldade': 'Recalcular...' 
+            }
+            
+            if dados_form['tempo'] <= 30: dados_form['dificuldade'] = "Fácil"
+            elif dados_form['tempo'] <= 60: dados_form['dificuldade'] = "Médio"
+            else: dados_form['dificuldade'] = "Difícil"
+
+            self.receita_service.editar_receita(dados_form)
+            return self.redirect('/admin')
+
+    # ve detalhes da receita tipo o ifood
+    def ver_receita(self, id):
+        if not self.esta_logado(): return self.redirect('/login')
+        
+        receita = self.receita_service.buscar_por_id(id)
+        if not receita: return self.redirect('/opcoes')
+            
+        return self.render('usuario/ver_receita', receita=receita)
+
+    # métodos do cardápio
     def cardapioCafe(self):
-        # Lista de receitas do cafe da manha
+        if not self.esta_logado(): return self.redirect('/login')
         dados = self.receita_service.listar_por_categoria('Cafe')
-        # render (do BaseController)
         return self.render('usuario/lista_receitas', receitas=dados, titulo='Café da Manhã')
 
     def cardapioAlmoco(self):
-        # Lista de receitas do almoço
-        dados = self._receita_service.listar_por_categoria('Almoco')
-        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Almoço'})
+        if not self.esta_logado(): return self.redirect('/login')
+        dados = self.receita_service.listar_por_categoria('Almoco')
+        return self.render('usuario/lista_receitas', receitas=dados, titulo='Almoço')
 
     def cardapioLanche(self):
-        # Lista de receitas do lanche
-        dados = self._receita_service.listar_por_categoria('Lanche')
-        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Lanche'})
+        if not self.esta_logado(): return self.redirect('/login')
+        dados = self.receita_service.listar_por_categoria('Lanche')
+        return self.render('usuario/lista_receitas', receitas=dados, titulo='Lanche')
 
     def cardapioJanta(self):
-        # Lista de receitas do jantar
-        dados = self._receita_service.listar_por_categoria('Janta')
-        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Jantar'})
+        if not self.esta_logado(): return self.redirect('/login')
+        dados = self.receita_service.listar_por_categoria('Janta')
+        return self.render('usuario/lista_receitas', receitas=dados, titulo='Jantar')
 
     def cardapioPetisco(self):
-        # Lista de receitas dos petiscos
-        dados = self._receita_service.listar_por_categoria('Petisco')
-        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Petiscos'})
+        if not self.esta_logado(): return self.redirect('/login')
+        dados = self.receita_service.listar_por_categoria('Petisco')
+        return self.render('usuario/lista_receitas', receitas=dados, titulo='Petiscos')
 
     def cardapioGato(self):
-        # Lista de receitas de comida para gato
-        dados = self._receita_service.listar_por_categoria('Gato')
-        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Receitas para Gatos'})
+        if not self.esta_logado(): return self.redirect('/login')
+        dados = self.receita_service.listar_por_categoria('Gato')
+        return self.render('usuario/lista_receitas', receitas=dados, titulo='Receitas para Gatos')
 
     def cardapioCachorro(self):
-         # Lista de receitas de comida para gato
-        dados = self._receita_service.listar_por_categoria('Cachorro')
-        self.render('usuario/lista_receitas', {'receitas': dados, 'titulo': 'Receitas para Cachorros'})
+        if not self.esta_logado(): return self.redirect('/login')
+        dados = self.receita_service.listar_por_categoria('Cachorro')
+        return self.render('usuario/lista_receitas', receitas=dados, titulo='Receitas para Cachorros')
 
     def sugerir(self):
-         # pagina de sugestõess
-       return self.render('usuario/receita_form', titulo_pagina="Sugerir uma Receita") #p funcionar com receita_form.tpl
+        if not self.esta_logado(): return self.redirect('/login')
+        return self.render('usuario/receita_form', titulo_pagina="Sugerir uma Receita") 
 
     def admin(self):
-        # Parte do adm
+        if not self.esta_logado(): return self.redirect('/login')
         todas_receitas = self.receita_service.listar_todas()
         return self.render('admin/dashboard', receitas=todas_receitas)
 
     def novaReceita(self):
+        if not self.esta_logado(): return self.redirect('/login')
+
         # parte das novas receitas
-        # Se for GET: Mostra o formulário. 
-        # Se for POST: Recebe os dados e chama o criarReceita do Service. (parte importante)
+        # se for GET: mostra o formulário
+        # se for POST: recebe os dados e chama o criarReceita do Service
         
         if request.method == 'GET':
             return self.render('usuario/receita_form')
         else:
-            # Captura os dados do formulário
-            # empacotando em um dicionário para enviar ao service
+            # captura os dados do formulário
             dados_form = {
                 'titulo': request.forms.get('titulo'),
                 'ingredientes': request.forms.get('ingredientes'),
@@ -75,38 +137,31 @@ class ReceitaController(BaseController):
                 'categoria': request.forms.get('categoria'),
                 'tempo': request.forms.get('tempo'),
                 'tipo': request.forms.get('tipo', 'padrao'),
-                'especie': request.forms.get('especie', '')
+                'especie': request.forms.get('especie', ''),
+                # captura a imagem (ou usa padrão)
+                # o .strip() remove espaços vazios antes e depois do link
+                'imagem': request.forms.get('imagem', '').strip() or "https://placehold.co/600x400?text=Sem+Foto"
             }
 
-            # ID provisório so pra testar 
-            #TEM Q APAGAR ISSO DEPOIS E TROCAR PELA LÓGICA DO USUARIO Q TA LOGADO 
-            autor_id = 1
+            # pega id do usuário logado da memória
+            usuario_id = sessao.usuarios_logados.get('atual')
+            autor_id = usuario_id if usuario_id else 1
 
-            '''
-            QUANDO o login estiver pronto: no topo do arquivo from bottle import request, redirect
-
-            ai dentro desse método: apagar o id provisorio e botar esse definitivo
-
-             # tenta pegar o ID do cookie seguro
-             usuario_logado_id = request.get_cookie("session_id", secret='sua-chave-secreta-aqui')
-
-            if not usuario_logado_id:
-            # se não tem ninguém logado, chuta ele para a tela de login
-            return self.redirect('/login')
-
-            # ai usa o ID real
-            self.receita_service.criar_receita(dados_form, int(usuario_logado_id))
-            '''
-
-            # chamando o método criarReceita do Service e passando o dicionário e o ID
+            # salvando
             self.receita_service.criar_receita(dados_form, autor_id)
-           
-            # usa o método redirecionar do BaseController
-            return self.redirect('/admin')
+            
+        
+            # verifica se quem tá logado é admin
+            eh_admin = sessao.usuarios_logados.get('eh_admin')
+
+            if eh_admin:
+                return self.redirect('/admin')  # admin vai ver a lista de gestão
+            else:
+                return self.redirect('/opcoes') # usuário volta pro menu
         
     # Parte que nao entendi bem, estudar mais sobre (confuso)
 
-    #explicacao p gabriel tb 
+    #explicacao p gabriel 
     #essa parte do cod é tipo um mapa, o setup_routes conecta os endreços url q o usuario digita com a função python q deve responder a esses endereços
     # esse def é o mét chamado quando o sistema inicia 
     # self.app é o bottle (servidor web) 
@@ -117,23 +172,30 @@ class ReceitaController(BaseController):
     # OU SEJA routes organiza o tráfego d cada url
     
     def setup_routes(self):
-        self.app.route('/opcoes', method='GET', callback=self.opcoes)
         """
         Mapeia as URLs para os métodos da classe.
         Usa o objeto 'app' que vem herdado do BaseController.
         """
-        # Rotas de Cardápio
+        self.app.route('/opcoes', method='GET', callback=self.opcoes)
+
+        # rotas de rardápio
         self.app.route('/cafe', method='GET', callback=self.cardapioCafe)
         self.app.route('/almoco', method='GET', callback=self.cardapioAlmoco)
         self.app.route('/lanche', method='GET', callback=self.cardapioLanche)
         self.app.route('/petisco', method='GET', callback=self.cardapioPetisco)
         self.app.route('/janta', method='GET', callback=self.cardapioJanta)
-       
-        # Rotas Pet
+        
+        # rotas PET
         self.app.route('/gato', method='GET', callback=self.cardapioGato)
         self.app.route('/cachorro', method='GET', callback=self.cardapioCachorro)
+        
        
-        # Outras rotas
+        self.app.route('/receita/<id:int>', method='GET', callback=self.ver_receita) # rota de detalhes
         self.app.route('/sugerir', method='GET', callback=self.sugerir)
         self.app.route('/admin', method='GET', callback=self.admin)
         self.app.route('/nova_receita', method=['GET', 'POST'], callback=self.novaReceita)
+        
+        # rotas d aprovar, deletar, editar
+        self.app.route('/receitas/aprovar/<id:int>', method='POST', callback=self.aprovar)
+        self.app.route('/receitas/delete/<id:int>', method='POST', callback=self.excluir)
+        self.app.route('/receitas/editar/<id:int>', method=['GET', 'POST'], callback=self.editar)

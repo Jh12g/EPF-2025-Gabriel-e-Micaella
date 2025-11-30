@@ -2,7 +2,7 @@ from dataclasses import dataclass, asdict
 
 # ent. de receita
 @dataclass
-class EntidadeReceita: # classe p separar a lógica d salvar arquivo, igual o prof fez com user
+class EntidadeReceita:
     id: int
     titulo: str
     ingredientes: str
@@ -12,9 +12,11 @@ class EntidadeReceita: # classe p separar a lógica d salvar arquivo, igual o pr
     autor_id: int
     dificuldade: str = "Não calculada"
     status: str = "Pendente"
-    tipo: str = "padrao" # padrao ou pet
+    tipo: str = "padrao"
+    # [NOVO]: Campo de imagem (URL da internet)
+    imagem: str = "https://placehold.co/600x400?text=Sem+Foto" 
 
-    def to_dict(self): 
+    def to_dict(self):
         return asdict(self)
     
     def exibir_info(self):

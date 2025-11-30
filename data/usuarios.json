@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "nome": "Admin Supremo",
+        "email": "admin@teste.com",
+        "senha": "123",
+        "admin": true,
+        "birthdate": "2000-01-01"
+    },
+    {
+        "id": 2,
+        "nome": "mica",
+        "email": "mica@gmail.com",
+        "senha": "123",
+        "admin": false
+    }
+]

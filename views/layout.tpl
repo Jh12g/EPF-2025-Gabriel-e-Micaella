@@ -1,73 +1,43 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
-
- /*pra que esse laout: ele contém a header do site, o menu de navegaçao, o rodapé (Footer) e O link p o CSS*/
-
 <head>
-    <meta charset="UTF-8" />
-    
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Sistema Bottle - {{get('title', 'Sistema de Receitas')}}</title>
-    
-    <link rel="stylesheet" href="/static/css/style.css" />
-
-    <style>
-        /* define a fonte padrão e remove margens brancas do navegador */
-        body { margin: 0; font-family: sans-serif; background-color: #f4f4f4; }
-        
-        /* estilo da faixa de qualquer cor do topo do cabeçalho */
-        header { background: #ff6600; padding: 10px; text-align: center; color: white; }
-        
-        /* estilo da barra de menu */
-        nav { background: #333; overflow: hidden; }
-        
-        /* estilo dos botões do menu */
-        nav a { float: left; display: block; color: white; padding: 14px 16px; text-decoration: none; }
-        
-        /* efeito quando passa o mouse em cima do link (fica cinza) */
-        nav a:hover { background: #ddd; color: black; }
-        
-        /* caixa branca central onde vai o conteúdo principal */
-        .container { padding: 20px; background: white; margin: 20px auto; max-width: 900px; border-radius: 8px; }
-        
-        /* estilo do rodapé cinza lá embaixo */
-        footer { text-align: center; padding: 20px; background: #ddd; margin-top: 20px; }
-    </style>
+    <title>{{get('title', 'Sistema de Receitas')}}</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=999999">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 </head>
-
 <body>
 
     <header>
-        <h1>🍳 Livro de Receitas & Pets</h1>
+        <nav>
+            <h1> 📕 Livro de Receitas </h1>
+            <h2> Aprenda e Ensine <h2>
+            <div class="nav-links">
+                <a href="/" style="margin-right: 20px;">Início</a>
+                
+               % if logado:
+                    <a href="/opcoes">Painel</a>
+                    
+                    % if get('is_admin'):
+                        <a href="/admin">Admin</a>
+                    % end
+                    
+                    <a href="/logout" class="btn-danger" onclick="return confirm('Tem certeza que deseja sair?');">Sair</a>
+                % else:
+                    <a href="/login" class="btn-success" style="display:inline-block; width:auto; padding: 8px 20px;">Login</a>
+                % end
+            </div>
+        </nav>
     </header>
 
-    <nav>
-        <a href="/cafe">Café</a>
-        <a href="/almoco">Almoço</a>
-        <a href="/janta">Janta</a>
-        <a href="/petisco">Petisco</a>
-        <a href="/cachorro">Pets</a>
-        
-        <div style="float: right;">
-            <a href="/sugerir">Sugerir</a>
-            <a href="/admin"> Admin</a>
-            <a href="/users">Usuários</a>
-
-            <a href="/logout" style="background-color: #d9534f;">Sair</a>
-
-        </div>
-    </nav>
-
-    <div class="container">
-        {{!base}}  
+    <div style="flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 1000px; margin: 0 auto; padding: 20px;">
+        {{!base}}
     </div>
 
     <footer>
         <p>&copy; 2025, Projeto OO Python + Bottle. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="/static/js/main.js"></script>
 </body>
 </html>

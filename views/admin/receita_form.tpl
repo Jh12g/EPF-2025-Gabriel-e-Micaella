@@ -22,10 +22,6 @@
             <label>Modo de Preparo:</label>
             <textarea name="preparo" required style="height: 100px;">{{receita['preparo'] if defined('receita') and receita else ''}}</textarea>
 
-            <label>Link da Foto (URL):</label>
-            <input type="text" name="imagem" placeholder="Cole o link da imagem aqui (https://...)"
-                   value="{{receita.get('imagem', '') if defined('receita') and receita else ''}}">
-
             <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                 <div style="flex: 1;">
                     <label>Tempo (minutos):</label>
@@ -66,7 +62,7 @@
             <br>
             <button type="submit" class="btn-success">Salvar Receita</button>
         </form>
-        </div>
+    </div>
 </div>
 
 <script>

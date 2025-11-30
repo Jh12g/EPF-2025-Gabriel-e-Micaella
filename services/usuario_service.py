@@ -14,6 +14,8 @@ class UsuarioService:
     def autenticar(self, email, senha):
         """Verifica login"""
         usuario = self.model.buscar_por_email(email)
+        
+        # acessando senha com colchetes
         if usuario and usuario['senha'] == senha:
             return usuario
         return None

@@ -1,0 +1,67 @@
+[
+    {
+        "id": 8,
+        "titulo": "sdaasd",
+        "ingredientes": "asd",
+        "preparo": "asd",
+        "categoria": "Cafe",
+        "tempo": 234,
+        "autor_id": 1,
+        "dificuldade": "Difícil",
+        "status": "Ativo",
+        "tipo": "padrao",
+        "imagem": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
+    },
+    {
+        "id": 9,
+        "titulo": "asd",
+        "ingredientes": "asd",
+        "preparo": "asd",
+        "categoria": "Cafe",
+        "tempo": 23423,
+        "autor_id": 2,
+        "dificuldade": "Difícil",
+        "status": "Ativo",
+        "tipo": "padrao",
+        "imagem": "https://static.itdg.com.br/images/640-400/f0ea67e610fc02e469f184b169b7aa90/54362-original.jpg"
+    },
+    {
+        "id": 10,
+        "titulo": "sdddd",
+        "ingredientes": "asdasd",
+        "preparo": "asd",
+        "categoria": "Almoco",
+        "tempo": 2312213,
+        "autor_id": 2,
+        "dificuldade": "Difícil",
+        "status": "Ativo",
+        "tipo": "padrao",
+        "imagem": "https://static.itdg.com.br/images/640-400/30f1507f161e27a8c487c1fe92cb3061/111099-original.jpg"
+    },
+    {
+        "id": 11,
+        "titulo": "qweqwe",
+        "ingredientes": "qweeeeeeeeee",
+        "preparo": "weqqqqqqqqq",
+        "categoria": "Almoco",
+        "tempo": 132,
+        "autor_id": 2,
+        "dificuldade": "Difícil",
+        "status": "Ativo",
+        "tipo": "padrao",
+        "imagem": "https://placehold.co/600x400?text=Sem+Foto"
+    },
+    {
+        "id": 12,
+        "titulo": "asd",
+        "ingredientes": "asd",
+        "preparo": "asd",
+        "categoria": "Cafe",
+        "tempo": 234,
+        "autor_id": 2,
+        "dificuldade": "Difícil",
+        "status": "Ativo",
+        "tipo": "padrao",
+        "imagem": "https://placehold.co/600x400?text=Sem+Foto"
+    }
+]
