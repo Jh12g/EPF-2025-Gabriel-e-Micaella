@@ -4,16 +4,12 @@
     <h2 style="text-align: center;">Criar Nova Conta</h2>
 
     <form action="/cadastro" method="POST">
-        <label>Nome Completo:</label><br>
-        <input type="text" name="nome" required style="width: 100%; padding: 8px; margin-bottom: 15px;"><br>
-
-        <label>Email:</label><br>
-        <input type="email" name="email" required style="width: 100%; padding: 8px; margin-bottom: 15px;"><br>
-        
-        <label>Senha:</label><br>
-        <input type="password" name="senha" required style="width: 100%; padding: 8px; margin-bottom: 20px;"><br>
-        
-        <button type="submit" class="btn-success" style="width: 100%;">Cadastrar</button>
+    
+    <input type="text" name="nome" placeholder="Nome" required>
+    <input type="text" name="email" placeholder="Email" required>
+    <input type="password" name="senha" placeholder="Senha" required>
+    
+    <button type="submit">Cadastrar</button>
     </form>
     
     <p style="text-align: center; margin-top: 15px;">

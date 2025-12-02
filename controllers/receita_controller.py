@@ -1,26 +1,23 @@
 from bottle import Bottle, request
 from .base_controller import BaseController
 from services.receita_service import ReceitaService
-import sessao 
 
 class ReceitaController(BaseController):
     def __init__(self, app):
         super().__init__(app)
 
-        self.receita_service = ReceitaService() 
+        self.receita_service = ReceitaService()
         self.setup_routes() # chamando setup_routes que define as rotas
 
     def esta_logado(self):
-        # verifica se tem alguém na lista de logados na memória
-        esta_na_memoria = sessao.usuarios_logados.get('atual') is not None
-        return esta_na_memoria
+        # verifica se tem alguém logado (agora usando COOKIE)
+        return self.get_usuario_logado() is not None
 
     def opcoes(self):
         if not self.esta_logado(): return self.redirect('/login')
         return self.render('usuario/painel_opcoes') # renderiza o painel de botões
 
     # *******métodos de ação do admin********
-    
     def aprovar(self, id):
         if not self.esta_logado(): return self.redirect('/login')
         self.receita_service.aprovar_receita(id)
@@ -37,13 +34,13 @@ class ReceitaController(BaseController):
         receita = self.receita_service.buscar_por_id(id) # busca a receita para preencher o formulário
         
         if request.method == 'GET':
-            # reutiliza o formulário de cadastro, mas enviando a receita para preencher
+            # reutiliza o formulário de cadastro, mas enviando a receita p preencher
             return self.render('usuario/receita_form', titulo_pagina="Editar Receita", receita=receita)
         
         else:
             # POST - salvar edição
             dados_form = {
-                'id': id, 
+                'id': id,
                 'titulo': request.forms.get('titulo'),
                 'ingredientes': request.forms.get('ingredientes'),
                 'preparo': request.forms.get('preparo'),
@@ -51,11 +48,11 @@ class ReceitaController(BaseController):
                 'tempo': int(request.forms.get('tempo')),
                 'tipo': request.forms.get('tipo', 'padrao'),
                 'especie': request.forms.get('especie', ''),
-                'status': receita['status'], 
+                'status': receita['status'],
                 'autor_id': receita['autor_id'],
                 # aq mantém a imagem antiga se não enviou nova, ou atualiza
                 'imagem': request.forms.get('imagem') or receita.get('imagem'),
-                'dificuldade': 'Recalcular...' 
+                'dificuldade': 'Recalcular...'
             }
             
             if dados_form['tempo'] <= 30: dados_form['dificuldade'] = "Fácil"
@@ -112,7 +109,7 @@ class ReceitaController(BaseController):
 
     def sugerir(self):
         if not self.esta_logado(): return self.redirect('/login')
-        return self.render('usuario/receita_form', titulo_pagina="Sugerir uma Receita") 
+        return self.render('usuario/receita_form', titulo_pagina="Sugerir uma Receita")
 
     def admin(self):
         if not self.esta_logado(): return self.redirect('/login')
@@ -139,20 +136,19 @@ class ReceitaController(BaseController):
                 'tipo': request.forms.get('tipo', 'padrao'),
                 'especie': request.forms.get('especie', ''),
                 # captura a imagem (ou usa padrão)
-                # o .strip() remove espaços vazios antes e depois do link
+                # o .strip() remove espaços vazios antes e depois do link 
                 'imagem': request.forms.get('imagem', '').strip() or "https://placehold.co/600x400?text=Sem+Foto"
             }
 
-            # pega id do usuário logado da memória
-            usuario_id = sessao.usuarios_logados.get('atual')
-            autor_id = usuario_id if usuario_id else 1
+            # pega id do usuário logado (AGORA PELO COOKIE)
+            dados_usuario = self.get_usuario_logado()
+            autor_id = dados_usuario['id'] if dados_usuario else 1
 
             # salvando
             self.receita_service.criar_receita(dados_form, autor_id)
             
-        
-            # verifica se quem tá logado é admin
-            eh_admin = sessao.usuarios_logados.get('eh_admin')
+            # verifica se quem tá logado é admin (PELO COOKIE)
+            eh_admin = dados_usuario.get('admin', False) if dados_usuario else False
 
             if eh_admin:
                 return self.redirect('/admin')  # admin vai ver a lista de gestão
@@ -189,7 +185,7 @@ class ReceitaController(BaseController):
         self.app.route('/gato', method='GET', callback=self.cardapioGato)
         self.app.route('/cachorro', method='GET', callback=self.cardapioCachorro)
         
-       
+        
         self.app.route('/receita/<id:int>', method='GET', callback=self.ver_receita) # rota de detalhes
         self.app.route('/sugerir', method='GET', callback=self.sugerir)
         self.app.route('/admin', method='GET', callback=self.admin)

@@ -20,5 +20,12 @@
         "email": "micaella@gmail",
         "senha": "123",
         "admin": false
+    },
+    {
+        "id": 4,
+        "nome": "neil josten",
+        "email": "neil@gmail",
+        "senha": "123",
+        "admin": false
     }
 ]

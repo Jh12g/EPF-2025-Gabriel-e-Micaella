@@ -17,22 +17,13 @@
             </div>
         % end
 
-        <form action="/login" method="POST" style="box-shadow: none; padding: 0;">
-            
-            <div style="margin-bottom: 20px; text-align: left;">
-                <label>Email</label>
-                <input type="email" name="email" placeholder="seu@email.com" required>
-            </div>
-            
-            <div style="margin-bottom: 30px; text-align: left;">
-                <label>Senha</label>
-                <input type="password" name="senha" placeholder="Sua senha" required>
-            </div>
-            
-            <button type="submit" class="btn-success" style="width: 100%; padding: 15px; font-size: 1rem; border-radius: 30px;">
-                Entrar
-            </button>
-        </form>
+    <form action="/login" method="POST">
+    
+    <input type="text" name="email" placeholder="Email" required>
+    <input type="password" name="senha" placeholder="Senha" required>
+    
+    <button type="submit">Entrar</button>
+    </form>
 
         <p style="text-align: center; margin-top: 25px; font-size: 0.9rem; color: #666;">
             Não tem conta? <a href="/cadastro" style="color: #801313ff; font-weight: bold;">Cadastre-se aqui</a>
