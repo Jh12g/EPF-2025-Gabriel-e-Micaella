@@ -1,12 +1,14 @@
 from bottle import Bottle, request
 from .base_controller import BaseController
 from services.receita_service import ReceitaService
+from services.comentario_service import ComentarioService 
 
 class ReceitaController(BaseController):
     def __init__(self, app):
         super().__init__(app)
 
         self.receita_service = ReceitaService()
+        self.comentario_service = ComentarioService() # inicia o service de comentários
         self.setup_routes() # chamando setup_routes que define as rotas
 
     def esta_logado(self):
@@ -68,8 +70,12 @@ class ReceitaController(BaseController):
         
         receita = self.receita_service.buscar_por_id(id)
         if not receita: return self.redirect('/opcoes')
+
+        # carrega os comentários dessa receita
+        comentarios = self.comentario_service.listar_por_receita(id)
             
-        return self.render('usuario/ver_receita', receita=receita)
+        # manda 'receita' E 'comentarios' para o HTML
+        return self.render('usuario/ver_receita', receita=receita, comentarios=comentarios)
 
     # métodos do cardápio
     def cardapioCafe(self):
@@ -100,12 +106,14 @@ class ReceitaController(BaseController):
     def cardapioGato(self):
         if not self.esta_logado(): return self.redirect('/login')
         dados = self.receita_service.listar_por_categoria('Gato')
-        return self.render('usuario/lista_receitas', receitas=dados, titulo='Receitas para Gatos')
+        msg_alerta = "Cuidado! Tenha certeza que seu animal não tem nenhuma alergia. Verifique os ingredientes e dê pequenas porções inicialmente."
+        return self.render('usuario/lista_receitas', receitas=dados, titulo='Receitas para Gatos', aviso=msg_alerta)
 
     def cardapioCachorro(self):
         if not self.esta_logado(): return self.redirect('/login')
         dados = self.receita_service.listar_por_categoria('Cachorro')
-        return self.render('usuario/lista_receitas', receitas=dados, titulo='Receitas para Cachorros')
+        msg_alerta = "Cuidado! Tenha certeza que seu animal não tem nenhuma alergia. Verifique os ingredientes e dê pequenas porções inicialmente."
+        return self.render('usuario/lista_receitas', receitas=dados, titulo='Receitas para Cachorros', aviso=msg_alerta)
 
     def sugerir(self):
         if not self.esta_logado(): return self.redirect('/login')

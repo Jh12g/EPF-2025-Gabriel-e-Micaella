@@ -169,3 +169,346 @@ td form button:hover {
     transform: none !important;
     text-decoration: underline;
 }
+
+/*ESTILO DAS RECEITAS */
+
+.recipe-container {
+    max-width: 1000px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    padding: 0 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-voltar {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #666;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.btn-voltar:hover { color: #b71c1c; transform: translateX(-5px); }
+
+/* card principal*/
+.recipe-layout {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+/* coluna da img  */
+.recipe-image-col {
+    width: 100%;        /* Ocupa toda a largura */
+    position: relative;
+    height: 250px;      /* Altura fixa retangular (estilo banner) */
+    background-color: #eee; /* Cor de fundo caso a imagem demore a carregar */
+    border-radius: 20px 20px 0 0; /* Arredonda só os cantos de cima */
+}
+
+.recipe-image-col img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* coluna do conteúdo */
+.recipe-content-col {
+    padding: 30px 40px 40px 40px;
+}
+
+/* BLOCOS DE TEXTO SEPARADOS PRA NAO FICAR FEIO */
+
+/* Título e Tags */
+.recipe-meta-block {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.recipe-title {
+    color: #b71c1c;
+    margin-top: 0;
+    font-size: 2.2rem;
+    line-height: 1.2;
+}
+
+/* Caixas de Ingredientes e Preparo */
+.recipe-info-block {
+    background-color: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.recipe-info-block h3 {
+    margin-top: 0;
+    color: #e87472;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: none; 
+}
+
+/* Texto que quebra linha corretamente */
+.recipe-text {
+    margin-bottom: 0;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    color: #555;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+/* EXTRAS*/
+.badge-group { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+.badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+.badge-blue { background: #e3f2fd; color: #1976d2; }
+.badge-orange { background: #fff3e0; color: #f57c00; }
+.badge-purple { background: #f3e5f5; color: #7b1fa2; }
+
+.alert-pet {
+    background: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #c62828;
+}
+
+/* COMENTARIOS */
+.comments-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+.comment-item { border-bottom: 1px solid #eee; padding: 20px 0; }
+.comment-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.stars-active { color: #fdd835; letter-spacing: 2px; }
+.stars-inactive { color: #eee; }
+
+.comment-form-box {
+    background: #fff5f5;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px dashed #e87472;
+    margin-top: 30px;
+}
+.form-row { display: flex; gap: 20px; flex-wrap: wrap; }
+.form-col-small { flex: 1; min-width: 150px; }
+.form-col-large { flex: 3; min-width: 250px; }
+.input-styled { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; background: white; }
+.label-styled { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+
+.recipe-section-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 30px; 
+}
+
+.recipe-section-card h3 {
+    margin-top: 0;
+    color: #b71c1c;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+}
+
+/* botão de excluir comentário  */
+.btn-delete-comment {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.btn-delete-comment:hover {
+    background-color: #ffebee; /* fundo vermelhinho ao passar o mouse */
+    transform: scale(1.1);
+}
+
+/* NOTIFICAÇÃO DE ALERTA DOS BICHOS */
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #d32f2f; 
+    color: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 9999;
+    max-width: 400px;
+    animation: slideInAndShake 0.6s ease-out;
+    border: 2px solid #b71c1c;
+}
+
+.notif-icon {
+    font-size: 2.5rem;
+    background: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.notif-content strong {
+    display: block;
+    color: #fff;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.notif-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #ffebee;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.notif-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    transition: 0.2s;
+}
+.notif-close:hover { background: white; color: #d32f2f; }
+
+@keyframes slideInAndShake {
+    0% { transform: translateX(120%); opacity: 0; }
+    60% { transform: translateX(-10px); opacity: 1; }
+    80% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+.recipe-card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* novo estilo p login e p cadastro pq o de antes nao funciona mais (???) */
+
+.login-container {
+    max-width: 500px;
+    margin: 60px auto; 
+    padding: 0 20px;
+}
+
+.card-login {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 3px solid #b71c1c; 
+    text-align: center;
+}
+
+.login-title {
+    color: #b71c1c;
+    margin: 0 0 10px 0;
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.login-subtitle {
+    color: #666;
+    font-size: 0.95rem;
+    margin: 0 0 30px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left; 
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: 0.3s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #e87472; 
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(232, 116, 114, 0.2);
+}
+
+.alert-error {
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #ef4444;
+    font-weight: 500;
+}
+
+.login-footer {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.login-link {
+    color: #b71c1c;
+    font-weight: bold;
+    text-decoration: none;
+}
+.login-link:hover {
+    text-decoration: underline;
+}

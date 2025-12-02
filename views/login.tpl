@@ -1,32 +1,33 @@
-% rebase('layout.tpl', title='Fazer Login')
+% rebase('layout.tpl', title='Login')
 
-<link rel="stylesheet" href="/static/css/style.css?v=1002"> 
-
-<div class="login-container"> 
-    
-    <div class="card-login" style="background: white;"> 
+<div class="login-container">
+    <div class="card-login">
         
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h2 style="color: #620202ff; margin: 0; font-size: 1.8rem; font-weight: 800;">Fazer Login</h2>
-            <p style="color: #666; font-size: 0.95rem; margin-top: 5px;">Acesse sua conta para continuar</p>
-        </div>
+        <h2 class="login-title">Bem-vindo!</h2>
+        <p class="login-subtitle">Acesse sua conta para continuar</p>
 
         % if get('erro'):
-            <div class="alerta-erro" style="background: #fee2e2; color: #b91c1c; padding: 12px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+            <div class="alert-error">
                 ⚠️ {{erro}}
             </div>
         % end
 
-    <form action="/login" method="POST">
-    
-    <input type="text" name="email" placeholder="Email" required>
-    <input type="password" name="senha" placeholder="Senha" required>
-    
-    <button type="submit">Entrar</button>
-    </form>
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label class="form-label">Seu E-mail</label>
+                <input type="text" name="email" class="form-input" placeholder="exemplo@email.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Sua Senha</label>
+                <input type="password" name="senha" class="form-input" placeholder="senha" required>
+            </div>
+            
+            <button type="submit" class="btn-success">Entrar</button>
+        </form>
 
-        <p style="text-align: center; margin-top: 25px; font-size: 0.9rem; color: #666;">
-            Não tem conta? <a href="/cadastro" style="color: #801313ff; font-weight: bold;">Cadastre-se aqui</a>
+        <p class="login-footer">
+            Não tem conta? <a href="/cadastro" class="login-link">Cadastre-se aqui</a>
         </p>
     </div>
 </div>

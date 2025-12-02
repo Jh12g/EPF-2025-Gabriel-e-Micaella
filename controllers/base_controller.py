@@ -17,7 +17,7 @@ class BaseController:
 
     #**********método de cookie***********
     def get_usuario_logado(self):
-        # PRINT DE DEBUG: Avisa que tentou ler
+        # PRINT DE DEBUG PQ NAO TA DANDO CERTO: avisa que tentou ler
         print("DEBUG: Tentando ler o cookie 'user_session'...")
         
         cookie_valor = request.get_cookie("user_session", secret=Config.SECRET_KEY)
@@ -39,6 +39,12 @@ class BaseController:
         return None
 
     def render(self, filename, **kwargs): #,étodo auxiliar para renderizar templates
+        
+        # FORÇA O NAVEGADOR A NÃO CACHEAR 
+        response.set_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+        response.set_header('Pragma', 'no-cache')
+        response.set_header('Expires', '0')
+
         # TENTA ler o cookie
         dados_usuario = self.get_usuario_logado()
         

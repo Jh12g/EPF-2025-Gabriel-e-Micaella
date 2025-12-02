@@ -1,0 +1,26 @@
+[
+    {
+        "id": 2,
+        "texto": "boa",
+        "autor_id": 3,
+        "receita_id": 8,
+        "nome_autor": "micaella",
+        "nota": 5
+    },
+    {
+        "id": 4,
+        "texto": "ruim",
+        "autor_id": 1,
+        "receita_id": 15,
+        "nome_autor": "Admin Supremo",
+        "nota": 3
+    },
+    {
+        "id": 5,
+        "texto": "legalll",
+        "autor_id": 1,
+        "receita_id": 15,
+        "nome_autor": "Admin Supremo",
+        "nota": 4
+    }
+]

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{get('title', 'Sistema de Receitas')}}</title>
-    <link rel="stylesheet" href="/static/css/style.css?v=999999">
+    <link rel="stylesheet" href="/static/css/style.css?v=2000">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 </head>
 <body>
@@ -14,7 +14,7 @@
             <h1> 📕 Livro de Receitas </h1>
             <h2> Aprenda e Ensine <h2>
             <div class="nav-links">
-                <a href="/" style="margin-right: 20px;">Início</a>
+                <a href="/" style="margin-right: 20px;">Tela de Início</a>
                 
                % if logado:
                     <a href="/opcoes">Painel</a>
