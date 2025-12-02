@@ -13,5 +13,12 @@
         "email": "mica@gmail.com",
         "senha": "123",
         "admin": false
+    },
+    {
+        "id": 3,
+        "nome": "micaella",
+        "email": "micaella@gmail",
+        "senha": "123",
+        "admin": false
     }
 ]

@@ -63,5 +63,45 @@
         "status": "Ativo",
         "tipo": "padrao",
         "imagem": "https://placehold.co/600x400?text=Sem+Foto"
+    },
+    {
+        "id": 13,
+        "titulo": "usgydufya",
+        "ingredientes": "jhbfd",
+        "preparo": "ajbhdsa",
+        "categoria": "Almoco",
+        "tempo": 7346,
+        "autor_id": 2,
+        "dificuldade": "Difícil",
+        "status": "Pendente",
+        "tipo": "padrao",
+        "imagem": "https://placehold.co/600x400?text=Sem+Foto"
+    },
+    {
+        "id": 14,
+        "titulo": "receita",
+        "ingredientes": "receita",
+        "preparo": "receita",
+        "categoria": "Almoco",
+        "tempo": 12,
+        "tipo": "padrao",
+        "especie": "",
+        "status": "Ativo",
+        "autor_id": 3,
+        "imagem": "https://placehold.co/600x400?text=Sem+Foto",
+        "dificuldade": "Fácil"
+    },
+    {
+        "id": 15,
+        "titulo": "sugerindo",
+        "ingredientes": "hexatombe",
+        "preparo": "cellbit",
+        "categoria": "Cafe",
+        "tempo": 50,
+        "autor_id": 3,
+        "dificuldade": "Médio",
+        "status": "Ativo",
+        "tipo": "padrao",
+        "imagem": "https://placehold.co/600x400?text=Sem+Foto"
     }
 ]
