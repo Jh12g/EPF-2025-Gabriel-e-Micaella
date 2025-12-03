@@ -85,6 +85,8 @@ poo-python-bottle-template/
 ├── requirements.txt
 └── sessao.py
 ```
+## Diagrama de Classes 
+<img width="1519" height="816" alt="image" src="https://github.com/user-attachments/assets/7ed1761e-3431-4e9f-aa67-ebbaf165d8c6" />
 
 
 ---
