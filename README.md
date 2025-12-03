@@ -14,18 +14,76 @@ Fornecer uma base simples, extensível e didática para construção de aplicaç
 
 ```bash
 poo-python-bottle-template/
-├── app.py # Ponto de entrada do sistema
-├── config.py # Configurações e caminhos do projeto
-├── main.py # Inicialização da aplicação
-├── requirements.txt # Dependências do projeto
-├── README.md # Este arquivo
-├── controllers/ # Controladores e rotas
-├── models/ # Definição das entidades (ex: User)
-├── services/ # Lógica de persistência (JSON)
-├── views/ # Arquivos HTML (Bottle Templating)
-├── static/ # CSS, JS e imagens
-├── data/ # Arquivos JSON de dados
-└── .vscode/ # Configurações opcionais do VS Code
+│
+├── .vscode/
+│   └── settings.json
+│
+├── controllers/
+│   ├── __init__.py
+│   ├── base_controller.py
+│   ├── comentario_controller.py
+│   ├── receita_controller.py
+│   └── usuario_controller.py
+│
+├── data/
+│   ├── comentarios.json
+│   ├── receitas.json
+│   ├── users.json
+│   └── usuarios.json
+│
+├── models/
+│   ├── base_model.py
+│   ├── comentario_model.py
+│   ├── entidades.py
+│   ├── receita_model.py
+│   └── usuario_model.py
+│
+├── services/
+│   ├── comentario_service.py
+│   ├── receita_service.py
+│   └── usuario_service.py
+│
+├── static/
+│   ├── css/
+│   │   ├── helper.css
+│   │   └── style.css
+│   ├── img/
+│   │   └── BottleLogo.png
+│   └── js/
+│       ├── helper.js
+│       └── main.js
+│
+├── venv/
+│   ├── Include/
+│   ├── Lib/
+│   └── Scripts/
+│
+├── views/
+│   ├── admin/
+│   │   ├── dashboard.tpl
+│   │   ├── receita_form.tpl
+│   │   ├── user_form.tpl
+│   │   └── users.tpl
+│   ├── usuario/
+│   │   ├── lista_receitas.tpl
+│   │   ├── painel_opcoes.tpl
+│   │   ├── receita_form.tpl
+│   │   └── ver_receita.tpl
+│   ├── cadastro.tpl
+│   ├── helper-final.tpl
+│   ├── landing.tpl
+│   ├── layout.tpl
+│   └── login.tpl
+│
+├── .gitignore
+├── .pylintrc
+├── app.py
+├── config.py
+├── main.py
+├── Makefile
+├── README.md
+├── requirements.txt
+└── sessao.py
 ```
 
 
