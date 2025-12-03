@@ -70,5 +70,21 @@
         "receita_id": 7,
         "nome_autor": "Gabriel",
         "nota": 5
+    },
+    {
+        "id": 12,
+        "texto": "meio ruim essa receita",
+        "autor_id": 5,
+        "receita_id": 2,
+        "nome_autor": "Gabriel",
+        "nota": 2
+    },
+    {
+        "id": 13,
+        "texto": "Bom demais",
+        "autor_id": 5,
+        "receita_id": 17,
+        "nome_autor": "Gabriel",
+        "nota": 4
     }
 ]

@@ -12,6 +12,7 @@ class ComentarioModel(BaseModel):
     def buscar_por_id(self, id_item): 
         return next((c for c in self.dados if c['id'] == id_item), None)
     
+    
 # gabriel aqui n precisa de to_dict pq ja tem na entidadeComentario
 #lembrando q as entidades servem p segurar os dados e essas models unicas serve pra gravar e ler no disco
 # essas entidades sao como folhas de papeis preenchidas com os dados e as model fazem o trabalho d gerenciar (gurdar e recuperar) as fichas (((service cordena tudo como regras calculos logica)))
