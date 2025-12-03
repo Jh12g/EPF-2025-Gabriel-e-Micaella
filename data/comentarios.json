@@ -1,0 +1,74 @@
+[
+    {
+        "id": 2,
+        "texto": "boa",
+        "autor_id": 3,
+        "receita_id": 8,
+        "nome_autor": "micaella",
+        "nota": 5
+    },
+    {
+        "id": 4,
+        "texto": "ruim",
+        "autor_id": 1,
+        "receita_id": 15,
+        "nome_autor": "Admin Supremo",
+        "nota": 3
+    },
+    {
+        "id": 5,
+        "texto": "legalll",
+        "autor_id": 1,
+        "receita_id": 15,
+        "nome_autor": "Admin Supremo",
+        "nota": 4
+    },
+    {
+        "id": 6,
+        "texto": "Um prato MARAVILHOSO, adorei recomento demais ",
+        "autor_id": 5,
+        "receita_id": 6,
+        "nome_autor": "Gabriel",
+        "nota": 5
+    },
+    {
+        "id": 7,
+        "texto": "Um prato MARAVILHOSO, adorei recomento demais ",
+        "autor_id": 5,
+        "receita_id": 6,
+        "nome_autor": "Gabriel",
+        "nota": 5
+    },
+    {
+        "id": 8,
+        "texto": "Prato delicioso",
+        "autor_id": 5,
+        "receita_id": 6,
+        "nome_autor": "Gabriel",
+        "nota": 4
+    },
+    {
+        "id": 9,
+        "texto": "Ã© bonzinho esse",
+        "autor_id": 5,
+        "receita_id": 1,
+        "nome_autor": "Gabriel",
+        "nota": 3
+    },
+    {
+        "id": 10,
+        "texto": "delicia demais!!!!!",
+        "autor_id": 5,
+        "receita_id": 5,
+        "nome_autor": "Gabriel",
+        "nota": 5
+    },
+    {
+        "id": 11,
+        "texto": "Receita sem igual essa!!!!!!",
+        "autor_id": 5,
+        "receita_id": 7,
+        "nome_autor": "Gabriel",
+        "nota": 5
+    }
+]

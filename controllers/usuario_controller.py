@@ -1,7 +1,8 @@
 from bottle import request, response
 from .base_controller import BaseController
 from services.usuario_service import UsuarioService
-import sessao # importando a memória global
+from config import Config #pro cookie
+import json 
 
 class UserController(BaseController):
     def __init__(self, app):
@@ -10,7 +11,6 @@ class UserController(BaseController):
         self.setup_routes()
 
     def setup_routes(self):
-
         # mapeia as URLs para as funções
         # self.app é o bottle (servidor web) 
         # os argumentos tipo /cafe e /almoco é o endereço url
@@ -31,26 +31,45 @@ class UserController(BaseController):
 
     # métodos de logim
     def login(self):
+        print(f"DEBUG: Método recebido foi {request.method}") 
+        
         if request.method == 'GET':
+            print("DEBUG: Mostrando formulário...") 
             return self.render('login', erro=None)
+        
+        print("DEBUG: Tentando processar login...")
         
         email = request.forms.get('email')
         senha = request.forms.get('senha')
         
-        # verifica se o usuário existe no banco
         usuario = self.service.autenticar(email, senha)
         
         if usuario:
-            print(f"✅ Login Sucesso! Salvando ID {usuario['id']} na memória.")
+            print(f"Login Sucesso! Criando cookie para ID {usuario['id']}.") 
             
-            #SEGURANÇA - VER DNV ISSO DPS
-            # salva o ID e também se ele é ADMIN
-            sessao.usuarios_logados['atual'] = usuario['id']
-            sessao.usuarios_logados['eh_admin'] = usuario.get('admin', False) # Se não tiver o campo, assume False
+            # criando um dicionário com o que queremos guardar no cookie (id e se é admin)
+            dados_sessao = {
+                'id': usuario['id'],
+                'admin': usuario.get('admin', False)
+            }
+            
+            # transforma o dicionário em TEXTO p bottle aceitar e não dar erro
+            dados_json = json.dumps(dados_sessao)
+            
+            # CRIANDO O COOKIE ASSINADO
+            # acho q 'secret' vai garantir que ninguém consiga falsificar o cookie
+            # ADICIONEI path='/' 
+            response.set_cookie("user_session", dados_json, secret=Config.SECRET_KEY, path='/')
             
             return self.redirect('/opcoes')
         else:
             return self.render('login', erro="Email ou senha incorretos!")
+
+    def logout(self):
+        # DELETANDO O COOKIE 
+        # path='/' 
+        response.delete_cookie("user_session", path='/')
+        return self.redirect('/login')
 
     def cadastro(self):
         if request.method == 'GET':
@@ -68,11 +87,7 @@ class UserController(BaseController):
         else:
             return self.render('cadastro', erro=msg)
 
-    def logout(self):
-        sessao.usuarios_logados.clear() # limpa a memória
-        return self.redirect('/login')
-
-    #métodos d admin
+    #*******************métodos d admin
     def list_users(self):
         # busca todos os usuários via service
         users = self.service.get_all()

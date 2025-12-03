@@ -72,6 +72,8 @@ class EntidadeComentario:
     texto: str
     autor_id: int   
     receita_id: int
+    nome_autor: str = "Anônimo" 
+    nota: int = 0              
 
-    def to_dict(self): #retorna dicionario p salvar no json
+    def to_dict(self): 
         return asdict(self)
